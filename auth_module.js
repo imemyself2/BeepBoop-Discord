@@ -1,0 +1,1 @@
+exports.bot_token = "NzAwMzk1MDI1NzQ5NzcwMzA2.XpiVEw.Wz-MBhao2MhREltuoy2UUvdHMiE"
