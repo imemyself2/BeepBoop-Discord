@@ -133,13 +133,13 @@ bot.on('message', (message) => {
             case 'howto':
             default:
                 var usage = [
-                    {"-about": "Who am I?"},
-                    {"-greet": "Say hello!"},
-                    {"-opengame": "Start and emoji movie guessing game"}
+                    {about: "Who am I?"},
+                    {greet: "Say hello!"},
+                    {opengame: "Start and emoji movie guessing game"}
                 ];
                 var i = 0;
                 while(i < usage.length){
-                    message.channel.send(Object.keys(usage)[i] + ": " + Object.values(usage)[i]);
+                    message.channel.send(Object.keys(usage[i]) + ": " + Object.values(usage[i]));
                     i++;
                 }
         }
