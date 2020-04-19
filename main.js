@@ -3,6 +3,7 @@ var auth_module;
 var token;
 if(process.env.DBK){
     token = process.env.DBK;
+    console.log(token);
 }
 else{
     auth_module = require('./auth_module.js');
