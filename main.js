@@ -1,6 +1,6 @@
 const discord = require('discord.js');
 const auth_module = require('./auth_module');
-const token = auth_module.bot_token;
+const token = auth_module.bot_token || process.env.DBK;
 const bot = new discord.Client();
 const argSpecifier = '-';
 
