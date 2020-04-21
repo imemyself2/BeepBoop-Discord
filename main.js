@@ -1,4 +1,5 @@
 const discord = require('discord.js');
+const data = require('./data.js');
 var auth_module;
 var token;
 if(process.env.DBK){
@@ -18,144 +19,141 @@ bot.on('ready', () => {
 
 });
 
-const game = [{
-        emoji: '👳‍♂️⛵🐱',
-        ans: 'life of pi'
-    },
-    {
-        emoji: '👸🐸👑',
-        ans: 'princess and the frog'
-    },
-    {
-        emoji: '⚡🧔🔨',
-        ans: 'thor'
-    },
-    {
-        emoji: '🧚👹',
-        ans: 'angels and demons'
-    },
-    {
-        emoji: '🐼👊',
-        ans: 'kungfu panda'
-    },
-    {
-        emoji: '🌊🔥🌪️💥',
-        ans: '2012'
-    },
-    {
-        emoji: '🤧🤢😷🦠',
-        ans: 'contagion'
-    },
-    {
-        emoji: '🧒🐉',
-        ans: 'how to train your dragon'
-    },
-    {
-        emoji: '🎈',
-        ans: 'it'
-    },
-    {
-        emoji: '🤫🐑',
-        ans: 'silence of the lambs'
-    }
-];
-
-const reply_correct = ["That's correct!", "Awesome!", "You're good!", "Nice!", "Ekdum jordaar!", "Waah bhai waah", "You rock!", "Wohoo!", "On fire", "Fabulous!"];
 
 const about = new discord.MessageEmbed()
     .setColor('#128f97')
     .setTitle('Who am I?')
     .setURL('https://github.com/imemyself2/BeepBoop-Discord')
-    .setDescription('I am a bot under development. I can fetch you some data from here and there. My primary goal is to integrate different platforms and make it easy for discord users to access them without leaving discord.');
+    .setDescription('I am a bot looking for a purpose in life....');
+
+const currAnagramCard = new discord.MessageEmbed()
+    .setColor('#c5c808')
+    .setTitle('Current Anagram');
 
 var channel_game;
-var index = Math.floor(Math.random() * 10);
-var isGame = false;
-var currObject;
-bot.on('message', (message) => {
+var isEmojiGame = false;
+var isAnagramGame = false;
+var currentAnagramShuffled;
+var currentAnagramAnswer;
+var currentEmoji;
+var movielist;
 
-    //message.channel.send("Waiting to learn Gujarati <3");
-    if (message.content == 'Hi bot' || message.content == 'hi bot') {
-        // msg.reply(`Hi ${msg.author}!`);
-        var req_channel = message.channel;
-        message.react('❤️');
-        message.reply("Hello there!");
-    }
+bot.on('message', (message) => {
 
     if (message.content.startsWith(argSpecifier)) {
         // Message directed to bot
         var commandsArray = message.content.substr(argSpecifier.length).split(' ');
-        switch (commandsArray[0]) {
-            case 'greet':
+        
+            if(commandsArray[0] == 'greet'){
                 message.react('❤️');
                 message.reply('Hi there!');
-                break;
+            }
 
-            case 'about':
+            if(commandsArray[0] == 'about'){
                 message.channel.send(about);
-                break;
+            }
 
-            case 'opengame': // Start an emoji-movie game
-                if(isGame){
-                    message.channel.send("There is already an instance of game running");
-                    break;
+            if(commandsArray[0] == 'emoji'){
+                // Start emoji game
+            }
+
+            if(commandsArray[0] == 'anagram'){
+                // Start movie anagram game
+                if(isAnagramGame)
+                    message.channel.send("An instance of Anagram game is already running");
+                else{
+                    // Initialize and run game
+                    isAnagramGame = true;
+                    movielist = data.readMovieList('./movielist.txt');
+                    
+                    currentAnagramAnswer = movielist[Math.floor(Math.random() * movielist.length)].toLowerCase().split(" ").join('');
+                    currentAnagramShuffled = data.shuffleMovie(currentAnagramAnswer);
+                    currAnagramCard.setDescription(currentAnagramShuffled);
+                    const firstAnagramCard = new discord.MessageEmbed()
+                        .setColor("#c5c808")
+                        .setTitle("The Anagram game begins!")
+                        .setDescription("Decode the Anagram and find the movie\nUse \"-checkA <answer>\" to see if your answer is correct\nUse \"-showanagram\" to see the current anagram being played");
+                    message.channel.send(firstAnagramCard);
+                    
                 }
-                channel_game = message.channel;
-                channel_game.send("Let's begin the emoji game!");
-                index = Math.floor(Math.random()*10);
-                currObject = game[index];
-                channel_game.send(currObject.emoji);
-                isGame = true;
-                break;
-            case 'check': // Game answers handled here
-                if(isGame){
-                    commandsArray.shift();
-                    var message_joined = commandsArray.join(" ");
-                    if(message_joined.toLowerCase() == currObject.ans){
-                        message.reply(reply_correct[index]);
-                        index = Math.floor(Math.random()*10);
-                        var tempPrev = currObject;
-                        currObject = game[index];
-                        // check for similar game on second run
-                        if(currObject == tempPrev){
-                            index = Math.floor(Math.random()*10);
-                            currObject = game[index];
-                        }
-                        break;
+            }
+            if(commandsArray[0] == 'showanagram'){
+                if(isAnagramGame){
+                    // Show the current anagram, if any present
+                    message.channel.send(currAnagramCard);
+                    console.log(currentAnagramAnswer);
+                }
+                else{
+                    message.channel.send("No instance of Anagram game is currently running");
+                }
+            }
+
+            if(commandsArray[0] == 'closeanagram'){
+                if(isAnagramGame){
+                    // close game and clear any variable used
+                }
+                else{
+                    message.channel.send("No instance of the game is running");
+                }
+            }
+
+            if(commandsArray[0] == "checkA"){
+                if(isAnagramGame){
+                    var joinedMessage = commandsArray.join('');
+                    joinedMessage = joinedMessage.substring(commandsArray[0].length).toLowerCase();
+                    console.log(joinedMessage);
+                    
+                    if(joinedMessage == currentAnagramAnswer){
+                        const correctAnswerCard = new discord.MessageEmbed()
+                            .setColor("#39e817")
+                            .setTitle(data.reply_correct[Math.floor(Math.random() * data.reply_correct.length)])
+                            .setDescription(`${message.author}`);
+                        message.channel.send(correctAnswerCard);
+                        message.react('✅');
+
+
+                        // Set new anagram
+                        currentAnagramAnswer = movielist[Math.floor(Math.random() * movielist.length)].toLowerCase().split(" ").join('');
+                        currentAnagramShuffled = data.shuffleMovie(currentAnagramAnswer);
+                        currAnagramCard.setDescription(currentAnagramShuffled);
+                    }
+                    else{
+                        message.react('❌');
                     }
                 }
                 else{
-                    message.channel.send("There is no game running. Please use -opengame to start a game.");
-                    break;
+                    message.channel.send("No instance of the game is running");
                 }
-            case 'showgame': // Check the current game if it is running
-                if(isGame){
-                    message.channel.send(currObject.emoji);
-                }
-                break;
-            case 'closegame':
-                    isGame = false;
-                    message.channel.send("Thank you for playing :)");
-                    break;
-            case 'howto':
-            default:
+                
+            }
+            
+            if(commandsArray[0] == 'howto'){
+                const howtoCard = new discord.MessageEmbed()
+                    .setTitle("How to use BeepBoop")
+                    .setColor("#ff0000");
                 var usage = [
                     {about: "Who am I?"},
                     {greet: "Say hello!"},
-                    {opengame: "Start and emoji movie guessing game"}
+                    {anagram: "Start an Anagram movie guessing game"},
+                    {showanagram: "Show the current anagram"},
+                    {closeanagram: "Close the anagram game"}
                 ];
                 var i = 0;
+                var usageString = "";
                 while(i < usage.length){
-                    message.channel.send(Object.keys(usage[i]) + ": " + Object.values(usage[i]));
+                    usageString = usageString + (Object.keys(usage[i]) + ": " + Object.values(usage[i])) + "\n";
                     i++;
                 }
-        }
+                howtoCard.setDescription(usageString);
+                message.channel.send(howtoCard);
+            }
+        
 
     }
 });
 
-function playGame() {    
-
-    
-
+function randomCharSelector(element) {
+    // Returns index of a random character in range of the element
+    var index = element[Math.floor(Math.random() * element.length)];
+    return index;
 }
