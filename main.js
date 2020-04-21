@@ -91,6 +91,7 @@ bot.on('message', (message) => {
             if(commandsArray[0] == 'closeanagram'){
                 if(isAnagramGame){
                     // close game and clear any variable used
+                    isAnagramGame = false;
                 }
                 else{
                     message.channel.send("No instance of the game is running");
