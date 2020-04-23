@@ -26,9 +26,10 @@ const about = new discord.MessageEmbed()
     .setURL('https://github.com/imemyself2/BeepBoop-Discord')
     .setDescription('I am a bot looking for a purpose in life....');
 
-const currAnagramCard = new discord.MessageEmbed()
+var currAnagramCard = new discord.MessageEmbed()
     .setColor('#c5c808')
-    .setTitle('Current Anagram');
+    .setTitle('Current Anagram')
+    .setDescription("");
 
 var channel_game;
 var isEmojiGame = false;
