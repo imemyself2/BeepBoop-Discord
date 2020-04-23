@@ -66,9 +66,9 @@ bot.once('message', (message) => {
                     // Initialize and run game
                     isAnagramGame = true;
                     movielist = data.readMovieList('./movielist.txt');
-                    
-                    currentAnagramAnswer = movielist[Math.floor(Math.random() * movielist.length)].toLowerCase().split(" ").join('');
-                    console.log(currentAnagramAnswer);
+                    getCurrAnagramCard();
+                    //currentAnagramAnswer = movielist[Math.floor(Math.random() * movielist.length)].toLowerCase().split(" ").join('');
+                    //console.log(currentAnagramAnswer);
                     currentAnagramShuffled = data.shuffleMovie(currentAnagramAnswer);
                     currAnagramCard.setDescription(currentAnagramShuffled);
                     const firstAnagramCard = new discord.MessageEmbed()
@@ -154,6 +154,19 @@ bot.once('message', (message) => {
 
     }
 });
+
+function calcCurrAnagramCard() {
+    return new Promise(resolve => {
+        currentAnagramAnswer = movielist[Math.floor(Math.random() * movielist.length)].toLowerCase().split(" ").join('');
+        resolve('done calculating');
+    })
+    
+}
+
+async function getCurrAnagramCard() {
+    await calcCurrAnagramCard();
+    console.log("Result sent");
+}
 
 function randomCharSelector(element) {
     // Returns index of a random character in range of the element
