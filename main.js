@@ -68,6 +68,7 @@ bot.on('message', (message) => {
                     movielist = data.readMovieList('./movielist.txt');
                     
                     currentAnagramAnswer = movielist[Math.floor(Math.random() * movielist.length)].toLowerCase().split(" ").join('');
+                    console.log(currentAnagramAnswer);
                     currentAnagramShuffled = data.shuffleMovie(currentAnagramAnswer);
                     currAnagramCard.setDescription(currentAnagramShuffled);
                     const firstAnagramCard = new discord.MessageEmbed()
