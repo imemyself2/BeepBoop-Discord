@@ -81,7 +81,7 @@ bot.on('message', (message) => {
                 if(isAnagramGame){
                     // Show the current anagram, if any present
                     message.channel.send(currAnagramCard);
-                    console.log(currentAnagramAnswer);
+                    //console.log(currentAnagramAnswer);
                 }
                 else{
                     message.channel.send("No instance of Anagram game is currently running");
