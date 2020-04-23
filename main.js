@@ -39,7 +39,7 @@ var currentAnagramAnswer;
 var currentEmoji;
 var movielist;
 
-bot.on('message', (message) => {
+bot.once('message', (message) => {
 
     if (message.content.startsWith(argSpecifier)) {
         // Message directed to bot
