@@ -15,8 +15,8 @@ const argSpecifier = '-';
 bot.login(token);
 
 bot.on('ready', () => {
+    movielist = data.readMovieList('./movielist.txt');
     console.log("BeepBoop Online ...");
-
 });
 
 
@@ -38,11 +38,6 @@ var currentAnagramShuffled;
 var currentAnagramAnswer;
 var currentEmoji;
 var movielist;
-
-
-bot.once('ready', () => {
-    movielist = data.readMovieList('./movielist.txt');
-});
 
 bot.once('message', (message) => {
 
