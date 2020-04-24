@@ -39,7 +39,7 @@ var currentAnagramAnswer;
 var currentEmoji;
 var movielist;
 
-bot.once('message', (message) => {
+bot.on('message', (message) => {
 
     if (message.content.startsWith(argSpecifier)) {
         // Message directed to bot
@@ -66,7 +66,6 @@ bot.once('message', (message) => {
                     // Initialize and run game
                     isAnagramGame = true;
                     currentAnagramAnswer = movielist[Math.floor(Math.random() * movielist.length)].toLowerCase().split(" ").join('');
-                    console.log(movielist[Math.floor(Math.random() * movielist.length)].toLowerCase().split(" ").join(''));
                     currentAnagramShuffled = data.shuffleMovie(currentAnagramAnswer);
                     currAnagramCard.setDescription(currentAnagramShuffled);
                     const firstAnagramCard = new discord.MessageEmbed()
