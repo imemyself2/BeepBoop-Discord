@@ -80,7 +80,7 @@ bot.on('message', async (message) => {
                 if(isAnagramGame){
                     // Show the current anagram, if any present
                     //message.channel.send(currAnagramCard).then(()=> console.log(currentAnagramAnswer)).catch(()=>console.log("Promise failed."));
-                    message.reply(currAnagramCard).then(() => console.log("Anagram send success")).catch(() => console.log("Anagram send failed"));
+                    message.reply(currAnagramCard).then(() => console.log("Anagram send success")).catch((err) => console.log("Anagram send failed: " + err));
                 }
                 else{
                     message.channel.send("No instance of Anagram game is currently running");
