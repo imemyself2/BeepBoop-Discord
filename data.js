@@ -49,10 +49,11 @@ const reply_correct = ["That's correct!", "Awesome!", "You're good!", "Nice!", "
 
 // Anagram game content
 var movieListArr;
-const readMovieList = (movieLoc) => {
+const readMovieList = async (movieLoc) => {
     try{
         var movie = fs.readFileSync(movieLoc, 'utf8');
         movieListArr = movie.split('\r\n');
+        console.log("Movie list read into array...");
         return movieListArr;
     }
     catch(e){

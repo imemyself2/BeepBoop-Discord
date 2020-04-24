@@ -65,7 +65,7 @@ bot.on('message', async (message) => {
                 else{
                     // Initialize and run game
                     isAnagramGame = true;
-                    currentAnagramAnswer = movielist[0].toLowerCase().split(" ").join('');
+                    currentAnagramAnswer = movielist[Math.floor(Math.random() * movielist.length)].toLowerCase().split(" ").join('');
                     currentAnagramShuffled = data.shuffleMovie(currentAnagramAnswer);
                     currAnagramCard.setDescription(currentAnagramShuffled);
                     const firstAnagramCard = new discord.MessageEmbed()
@@ -80,7 +80,7 @@ bot.on('message', async (message) => {
                 if(isAnagramGame){
                     // Show the current anagram, if any present
                     //message.channel.send(currAnagramCard).then(()=> console.log(currentAnagramAnswer)).catch(()=>console.log("Promise failed."));
-                    message.reply(currAnagramCard);
+                    message.reply(currAnagramCard).then(() => console.log("Anagram send success")).catch(() => console.log("Anagram send failed"));
                 }
                 else{
                     message.channel.send("No instance of Anagram game is currently running");
