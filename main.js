@@ -65,7 +65,7 @@ bot.on('message', async (message) => {
                 else{
                     // Initialize and run game
                     isAnagramGame = true;
-                    currentAnagramAnswer = movielist[1].toLowerCase().split(" ").join('');
+                    currentAnagramAnswer = movielist[0].toLowerCase().split(" ").join('');
                     currentAnagramShuffled = data.shuffleMovie(currentAnagramAnswer);
                     currAnagramCard.setDescription(currentAnagramShuffled);
                     const firstAnagramCard = new discord.MessageEmbed()
