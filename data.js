@@ -65,7 +65,7 @@ const readMovieList = async (movieLoc) => {
 
 const shuffleMovie = (element) => {
 
-    var charArr = element.toLowerCase().split(' ').join('').split('');
+    let charArr = element.toString().toLowerCase().split(' ').join('').split('');
     for(var i = 0; i < charArr.length; i++){
         var shuffler = Math.floor(Math.random() * charArr.length);
         var temp = charArr[shuffler];

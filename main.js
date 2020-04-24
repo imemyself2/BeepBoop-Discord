@@ -14,8 +14,8 @@ const argSpecifier = '-';
 
 bot.login(token);
 
-bot.on('ready', () => {
-    movielist = data.readMovieList('./movielist.txt');
+bot.on('ready', async () => {
+    movielist = await data.readMovieList('./movielist.txt');
     console.log("BeepBoop Online ...");
 });
 
