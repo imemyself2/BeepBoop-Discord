@@ -39,6 +39,11 @@ var currentAnagramAnswer;
 var currentEmoji;
 var movielist;
 
+
+bot.once('ready', () => {
+    movielist = data.readMovieList('./movielist.txt');
+});
+
 bot.once('message', (message) => {
 
     if (message.content.startsWith(argSpecifier)) {
@@ -65,9 +70,7 @@ bot.once('message', (message) => {
                 else{
                     // Initialize and run game
                     isAnagramGame = true;
-                    movielist = data.readMovieList('./movielist.txt');
-                    //getCurrAnagramCard();
-                    //currentAnagramAnswer = movielist[Math.floor(Math.random() * movielist.length)].toLowerCase().split(" ").join('');
+                    currentAnagramAnswer = movielist[Math.floor(Math.random() * movielist.length)].toLowerCase().split(" ").join('');
                     console.log(movielist[Math.floor(Math.random() * movielist.length)].toLowerCase().split(" ").join(''));
                     currentAnagramShuffled = data.shuffleMovie(currentAnagramAnswer);
                     currAnagramCard.setDescription(currentAnagramShuffled);
@@ -82,8 +85,7 @@ bot.once('message', (message) => {
             if(commandsArray[0] == 'showanagram'){
                 if(isAnagramGame){
                     // Show the current anagram, if any present
-                    message.channel.send("currAnagramCard").then(()=> console.log(currentAnagramAnswer)).catch(()=>console.log("Promise failed."));
-                    //console.log(currentAnagramAnswer);
+                    message.channel.send(currAnagramCard).then(()=> console.log(currentAnagramAnswer)).catch(()=>console.log("Promise failed."));
                 }
                 else{
                     message.channel.send("No instance of Anagram game is currently running");
