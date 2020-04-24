@@ -79,7 +79,8 @@ bot.on('message', (message) => {
             if(commandsArray[0] == 'showanagram'){
                 if(isAnagramGame){
                     // Show the current anagram, if any present
-                    message.channel.send(currAnagramCard).then(()=> console.log(currentAnagramAnswer)).catch(()=>console.log("Promise failed."));
+                    //message.channel.send(currAnagramCard).then(()=> console.log(currentAnagramAnswer)).catch(()=>console.log("Promise failed."));
+                    message.reply(currAnagramCard);
                 }
                 else{
                     message.channel.send("No instance of Anagram game is currently running");
