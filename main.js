@@ -142,9 +142,10 @@ bot.on('message', async (message) => {
                 var usage = [
                     {about: "Who am I?"},
                     {greet: "Say hello!"},
-                    {anagram: "Start an Anagram movie guessing game"},
-                    {showanagram: "Show the current anagram"},
-                    {closeanagram: "Close the anagram game"}
+                    {save: "Save a song to your playlist, use -save <songname>"},
+                    {savecurrent: "Save the song being played currently to your playlist"},
+                    {showplaylist: "See your playlist. To see other user's playlist, use -showplaylist <userID>"},
+                    {setPlaylistPrivacy: "Set your playlist privacy useing -setPrivacyPublic or -setPrivacyPrivate"}
                 ];
                 var i = 0;
                 var usageString = "";
