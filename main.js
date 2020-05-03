@@ -164,6 +164,7 @@ bot.on('message', async (message) => {
                 }
                 else{
                     data.addToPlaylist(currSongObj.currSongUser, currSongObj.currSong);
+                    message.react('❤️');
                 }
                 
             }
