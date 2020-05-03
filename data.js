@@ -10,16 +10,37 @@ const addToPlaylist = (user, song) => {
         // If no user entry in playlist
         var songs = [song];
         playlistMap.set(user, songs);
+        console.log("Song added to playlist");
     }
     else{
         if(playlistMap.get(user).includes(song) == false){
             playlistMap.get(user).push(song);
+            console.log("Song added to playlist");
         }
         else{
             console.log("Song already in the playlist");
         }
     }
 };
+
+const getPlaylist = (user) => {
+
+    if(!playlistMap.has(user)){
+        console.log("No user playlist found");
+        return "empty";
+    }
+    else{
+        var userPlaylist = playlistMap.get(user);
+        var displayString = "";
+        var counter = 1;
+        userPlaylist.forEach(element => {
+        displayString = displayString + (counter++) + ". " + element + "\n";
+        });
+        console.log(displayString);
+        return displayString;
+    }
+    
+}
 
 // Emoji game content
 
@@ -108,3 +129,4 @@ exports.shuffleMovie = shuffleMovie;
 exports.readMovieList = readMovieList;
 exports.addToPlaylist = addToPlaylist;
 exports.playlistMap =  playlistMap;
+exports.getPlaylist = getPlaylist;

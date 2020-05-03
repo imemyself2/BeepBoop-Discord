@@ -158,11 +158,49 @@ bot.on('message', async (message) => {
 
             if(commandsArray[0] == 'savecurrent'){
                 // Save song playing currently to user's playlist
-                
+                if(currSongObj == null){
+                    message.reply("There is no song being played currently");
+                }
+                else{
+                    data.addToPlaylist(currSongObj.currSongUser, currSongObj.currSong);
+                }
                 
             }
 
-            if(commandsArray[0] == 'playlist' && commandsArray[1] == 'show'){
+            if(commandsArray[0] == 'save'){
+                if(commandsArray.length == 1){
+                    console.log("Please specify a song name or use -savecurrent to save the song currently being played");
+                }
+                else{
+                    if(commandsArray[1].includes('open.spotify.com')){
+                        // append 'spotify link'
+                        var tempString = commandsArray[1] + " (Spotify Link)";
+                        data.addToPlaylist(message.author, tempString);
+                    }
+                    else if(commandsArray[1].includes('youtube.com')){
+                        // append 'youtube link'
+                        var tempString = commandsArray[1] + " (Youtube Link)";
+                        data.addToPlaylist(message.author, tempString);
+                    }
+                    else{
+                        data.addToPlaylist(message.author, commandsArray.slice(1).join(" "));
+                    }
+                }
+
+
+            }
+
+            if(commandsArray[0] == 'showplaylist'){
+
+                var dispPlaylistString = data.getPlaylist(message.author);
+                if(dispPlaylistString == 'empty'){
+                    dispPlaylistString = "The playlist is empty";
+                }
+                const dispPlaylistCard = new discord.MessageEmbed()
+                                            .setTitle("Your playlist")
+                                            .setColor("#00e5ff")
+                                            .setDescription(dispPlaylistString);
+                message.channel.send(dispPlaylistCard);
 
             }
 
@@ -170,7 +208,14 @@ bot.on('message', async (message) => {
                 currSong = commandsArray.slice(1).join(" ");
                 currSongUser = message.author;
                 currSongObj = {currSongUser, currSong};
-                console.log("Current song object: " + currSongObj);
+                console.log("Current song object: " + currSongObj.currSongUser + " ~ " + currSongObj.currSong);
+            }
+
+            if(commandsArray[0] == 'stop'){
+                // Clear currSongObject
+                currSong = null;
+                currSongUser = null;
+                currSongObj = null;
             }
         
 
