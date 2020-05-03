@@ -186,15 +186,35 @@ bot.on('message', async (message) => {
                         data.addToPlaylist(message.author, commandsArray.slice(1).join(" "));
                     }
                 }
-
+                message.react('❤️');
 
             }
 
             if(commandsArray[0] == 'showplaylist'){
-
-                var dispPlaylistString = data.getPlaylist(message.author);
+                var isAuthor;
+                var userString;
+                if(commandsArray.length != 1){
+                    // requesting other user's playlist
+                    if(commandsArray[1] == message.author){
+                        isAuthor = true;
+                        userString = message.author;
+                    }
+                    else{
+                        isAuthor = false;
+                        userString = commandsArray[1];
+                    }
+                    
+                } 
+                else{
+                    isAuthor = true;
+                    userString = message.author;
+                }
+                var dispPlaylistString = data.getPlaylist(userString, isAuthor);
                 if(dispPlaylistString == 'empty'){
                     dispPlaylistString = "The playlist is empty";
+                }
+                else if(dispPlaylistString == 'inaccessible'){
+                    dispPlaylistString = "The playlist is inaccessible";
                 }
                 const dispPlaylistCard = new discord.MessageEmbed()
                                             .setTitle("Your playlist")
@@ -216,6 +236,26 @@ bot.on('message', async (message) => {
                 currSong = null;
                 currSongUser = null;
                 currSongObj = null;
+            }
+
+            if(commandsArray[0] == 'setPlaylistPrivate'){
+                // make playlist private
+                var check = data.setPlaylistPrivacy(message.author, 0);
+                if(check == 'empty'){
+                    message.channel.send('The playlist is inaccessible');
+                }
+                else if(check == 'success'){
+                    message.react('👍');
+                }
+            }
+            if(commandsArray[0] == 'setPlaylistPublic'){
+                var check = data.setPlaylistPrivacy(message.author, 1);
+                if(check == 'empty'){
+                    message.channel.send('The playlist is inaccessible');
+                }
+                else if(check == 'success'){
+                    message.react('👍');
+                }
             }
         
 

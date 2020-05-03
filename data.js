@@ -3,6 +3,8 @@ const fs = require('fs');
 // Playlist to save songs from the music bot
 
 let playlistMap = new Map();
+var playlistPrivacy = new Map();
+const Privacy = Object.freeze({'PRIVATE':0, 'PUBLIC':1});
 
 const addToPlaylist = (user, song) => {
     // Add songs to playlistMap
@@ -23,7 +25,23 @@ const addToPlaylist = (user, song) => {
     }
 };
 
-const getPlaylist = (user) => {
+const getPlaylist = (user, isMsgAuthor) => {
+
+    if(!isMsgAuthor){
+        if(playlistPrivacy.has(user)){
+            if(playlistPrivacy.get(user) == Privacy.PRIVATE){
+                return "inaccessible";
+            }
+            else if(playlistPrivacy.get(user) == Privacy.PUBLIC){
+                // go through
+            }
+        }
+        else{
+            // No privacy settings yet, add default privacy setting as PRIVATE
+            playlistPrivacy.set(user, Privacy.PRIVATE);
+            return "inaccessible";
+        }
+    }
 
     if(!playlistMap.has(user)){
         console.log("No user playlist found");
@@ -40,6 +58,14 @@ const getPlaylist = (user) => {
         return displayString;
     }
     
+}
+
+const setPlaylistPrivacy = (user, privacyMode) => {
+    if(privacyMode == 0)
+        playlistPrivacy.set(user, Privacy.PRIVATE);
+    else if(privacyMode == 1)
+        playlistPrivacy.set(user, Privacy.PUBLIC);
+    return 'success'; 
 }
 
 // Emoji game content
@@ -128,5 +154,5 @@ exports.reply_correct = reply_correct;
 exports.shuffleMovie = shuffleMovie;
 exports.readMovieList = readMovieList;
 exports.addToPlaylist = addToPlaylist;
-exports.playlistMap =  playlistMap;
 exports.getPlaylist = getPlaylist;
+exports.setPlaylistPrivacy = setPlaylistPrivacy;
