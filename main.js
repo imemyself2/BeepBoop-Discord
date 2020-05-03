@@ -38,8 +38,16 @@ var currentAnagramShuffled;
 var currentAnagramAnswer;
 var currentEmoji;
 var movielist;
+var currSong;
+var currSongUser;
+var currSongObj;
 
 bot.on('message', async (message) => {
+
+    /**
+     * Available commands: 
+     * -greet, -howto, -about
+     */
 
     if (message.content.startsWith(argSpecifier)) {
         // Message directed to bot
@@ -146,6 +154,23 @@ bot.on('message', async (message) => {
                 }
                 howtoCard.setDescription(usageString);
                 message.channel.send(howtoCard);
+            }
+
+            if(commandsArray[0] == 'savecurrent'){
+                // Save song playing currently to user's playlist
+                
+                
+            }
+
+            if(commandsArray[0] == 'playlist' && commandsArray[1] == 'show'){
+
+            }
+
+            if(commandsArray[0] == 'play'){
+                currSong = commandsArray.slice(1).join(" ");
+                currSongUser = message.author;
+                currSongObj = {currSongUser, currSong};
+                console.log("Current song object: " + currSongObj);
             }
         
 

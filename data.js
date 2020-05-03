@@ -1,5 +1,26 @@
 const fs = require('fs');
 
+// Playlist to save songs from the music bot
+
+let playlistMap = new Map();
+
+const addToPlaylist = (user, song) => {
+    // Add songs to playlistMap
+    if(playlistMap.has(user) == false){
+        // If no user entry in playlist
+        var songs = [song];
+        playlistMap.set(user, songs);
+    }
+    else{
+        if(playlistMap.get(user).includes(song) == false){
+            playlistMap.get(user).push(song);
+        }
+        else{
+            console.log("Song already in the playlist");
+        }
+    }
+};
+
 // Emoji game content
 
 const emojiGame = [{
@@ -85,3 +106,5 @@ exports.emojiGame = emojiGame;
 exports.reply_correct = reply_correct;
 exports.shuffleMovie = shuffleMovie;
 exports.readMovieList = readMovieList;
+exports.addToPlaylist = addToPlaylist;
+exports.playlistMap =  playlistMap;
